@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: ./test
+      dockerfile: Dockerfile
+
+    container_name: testrepo-app
+
+    restart: unless-stopped
+
+    ports:
+      - "4000:4000"
+
+    env_file:
+      - ./test/.env
+
+    environment:
+      NODE_ENV: production
