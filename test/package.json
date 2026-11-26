@@ -1,0 +1,17 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "this is test based project",
+  "main": "server.js",
+  "scripts": {
+    "test": "hello test",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "william",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0",
+    "nodemon": "^3.1.14"
+  }
+}
