@@ -8,11 +8,22 @@ services:
 
     restart: unless-stopped
 
-    ports:
-      - "80:80"
-
     env_file:
       - ./test/.env
 
     environment:
       NODE_ENV: production
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.testrepo.rule=Host(`api.nextgenwilliam.tech`)
+      - traefik.http.routers.testrepo.entrypoints=websecure
+      - traefik.http.routers.testrepo.tls.certresolver=letsencrypt
+      - traefik.http.services.testrepo.loadbalancer.server.port=80
+
+    networks:
+      - testrepo_default
+
+networks:
+  testrepo_default:
+    external: true
