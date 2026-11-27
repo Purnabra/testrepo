@@ -24,6 +24,51 @@ services:
     networks:
       - testrepo_default
 
+  db:
+    image: mariadb:11.4
+    container_name: myapp-db
+    restart: unless-stopped
+
+    env_file:
+      - ./test/.env
+
+    volumes:
+      - database_data:/var/lib/mysql
+
+    networks:
+      - app_network
+
+  admin:
+    image: phpmyadmin:5.2-apache
+    container_name: myapp-admin
+    restart: unless-stopped
+
+    depends_on:
+      - db
+
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.admin.rule=Host(`db.nextgenwilliam.tech`)
+      - traefik.http.routers.admin.entrypoints=websecure
+      - traefik.http.routers.admin.tls.certresolver=letsencrypt
+      - traefik.http.services.admin.loadbalancer.server.port=80
+
+    networks:
+      - app_network
+
+volumes:
+  database_data:
+
+
 networks:
   testrepo_default:
     external: true
+
+
+
+
+  
